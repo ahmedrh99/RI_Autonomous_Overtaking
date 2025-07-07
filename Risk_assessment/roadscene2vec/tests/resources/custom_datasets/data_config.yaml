@@ -1,0 +1,6 @@
+---
+dataset_type: 'carla'
+location_data:
+    input_path: '/louisccc/av/synthesis_data/271_carla'
+    
+    data_save_path: '.../preprocessed_dataset.pkl'

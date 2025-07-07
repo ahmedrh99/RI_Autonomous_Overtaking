@@ -1,0 +1,7 @@
+"""
+agent/
+------
+Contains the Actor-Critic agent used in PPO or DDPG training.
+"""
+
+from .DDPG_agent import DDPGAgent

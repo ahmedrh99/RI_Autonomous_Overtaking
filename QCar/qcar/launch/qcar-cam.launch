@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<launch>
+  <param name="robot_description" command="$(find xacro)/xacro '$(find qcar)/urdf/qcar_model.xacro'"/>
+
+  <!-- send fake joint values -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+  </node>
+
+
+  <!-- Combine joint values -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+  <!-- Show in Rviz   -->
+  <!--node name="rviz" pkg="rviz" type="rviz" args="-d $(find mybot_description)/launch/myrobot.rviz"/-->
+
+  <!--<node name="command_node" pkg="qcar"	
+	  type="commandnode.py" output="screen">
+        <remap from="/qcar/user_command" to="/$(env ROS_NAMESPACE)/user_command" />
+      
+  </node>-->    
+  <node name="qcar_node" pkg="qcar"
+          type="qcarnode.py" output="screen">
+        <remap from="/qcar/velocity" to="/$(env ROS_NAMESPACE)/velocity" />
+      <remap from="/qcar/battery_state" to="/$(env ROS_NAMESPACE)/battery_state" />
+      <remap from="/qcar/user_command" to="/$(env ROS_NAMESPACE)/user_command" />
+      
+  </node>
+
+  <!--node name="lidar_node" pkg="qcar"
+          type="lidarnode.py" output="screen" -->  
+  <!--/node-->
+
+  <node name="rplidarNode"          pkg="rplidar_ros"  type="rplidarNode" output="screen">
+        <param name="serial_port"         type="string" value="/dev/ttyTHS2"/>
+        <param name="serial_baudrate"     type="int"    value="115200"/><!--A1/A2 -->
+        <!--param name="serial_baudrate"     type="int"    value="256000"--><!--A3 -->
+        <param name="frame_id"            type="string" value="lidar"/>
+        <param name="inverted"            type="bool"   value="false"/>
+        <param name="angle_compensate"    type="bool"   value="true"/>
+        <remap from="/scan" to="/$(env ROS_NAMESPACE)/scan" />
+  </node>
+  
+  
+
+  <node name="rgbd_node" pkg="qcar"
+          type="rgbdnode.py" output="screen">
+          <remap from="/qcar/rgbd_color" to="/$(env ROS_NAMESPACE)/rgbd_color" />
+          <remap from="/qcar/rgbd_depth" to="/$(env ROS_NAMESPACE)/rgbd_depth" />
+  </node>
+
+</launch>

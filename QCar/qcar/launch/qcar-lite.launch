@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<launch>
+
+  <param name="robot_description" command="$(find xacro)/xacro '$(find qcar)/urdf/qcar_model.xacro'"/>
+
+  <!-- send fake joint values -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+    <param name="tf_prefix" value="$(env ROS_NAMESPACE)" />
+  </node>
+
+
+  <!-- Combine joint values -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+    <param name="tf_prefix" value="$(env ROS_NAMESPACE)" />
+  </node>
+
+
+  <node name="command_node" pkg="qcar"	
+	  type="commandnode.py" output="screen">
+      <param name="tf_prefix" value="$(env ROS_NAMESPACE)" />
+      <remap from="/qcar/user_command" to="/$(env ROS_NAMESPACE)/user_command" />
+  </node>    
+  <node name="qcar_node" pkg="qcar"
+          type="qcarnode.py" output="screen">
+      <param name="tf_prefix" value="$(env ROS_NAMESPACE)" />
+      <remap from="/qcar/velocity" to="/$(env ROS_NAMESPACE)/velocity" />
+      <remap from="/qcar/user_command" to="/$(env ROS_NAMESPACE)/user_command" />
+      <remap from="/qcar/battery_state" to="/$(env ROS_NAMESPACE)/battery_state" />
+  </node>
+  
+
+</launch>

@@ -1,0 +1,10 @@
+<launch>
+  <node pkg="rl_qcar_controller" type="rl_qcar_node.py" name="rl_qcar_controller" output="screen">
+    <param name="model_path" value="$(find rl_qcar_controller)/model/ppo_carla_model.zip"/>
+    <param name="max_linear_speed" value="0.2"/>
+    <param name="scan_topic" value="/qcar1/scan"/>
+    <param name="follower_pose_topic" value="/natnet_ros/qcar1/pose"/>
+    <param name="player_pose_topic" value="/natnet_ros/qcar2/pose"/>
+    <param name="control_topic" value="/cmd_vel"/>
+  </node>
+</launch>

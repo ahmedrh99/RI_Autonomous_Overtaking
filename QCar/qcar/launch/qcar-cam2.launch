@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<launch>
+  <param name="robot_description" command="$(find xacro)/xacro '$(find qcar)/urdf/qcar_model.xacro'"/>
+
+  <!-- send fake joint values -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+  </node>
+
+
+  <!-- Combine joint values -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+  <!-- Show in Rviz   -->
+  <!--node name="rviz" pkg="rviz" type="rviz" args="-d $(find mybot_description)/launch/myrobot.rviz"/-->
+
+  <!-- <node name="command_node" pkg="qcar"	
+	  type="commandnode.py" output="screen">
+        <remap from="/qcar/user_command" to="/$(env ROS_NAMESPACE)/user_command" />
+      
+  </node>-->    
+  <!--<node name="qcar_node" pkg="qcar"
+          type="qcarnode.py" output="screen">
+        <remap from="/qcar/velocity" to="/$(env ROS_NAMESPACE)/velocity" />
+      <remap from="/qcar/battery_state" to="/$(env ROS_NAMESPACE)/battery_state" />
+      <remap from="/qcar/user_command" to="/$(env ROS_NAMESPACE)/user_command" />
+      
+  </node>-->
+
+  <!--node name="lidar_node" pkg="qcar"
+          type="lidarnode.py" output="screen" -->  
+  <!--/node-->
+
+  <node name="rgbd_node" pkg="qcar"
+          type="rgbdnode2.py" output="screen">
+    <remap from="/camera/color/image" to="/$(env ROS_NAMESPACE)/camera/color/image" />
+    <remap from="/camera/color/image/compressed" to="/$(env ROS_NAMESPACE)/camera/color/image/compressed" />
+    <remap from="/camera/color/camera_info" to="/$(env ROS_NAMESPACE)/camera/color/camera_info" />
+    <remap from="/camera/depth/image" to="/$(env ROS_NAMESPACE)/camera/depth/image" />
+    <remap from="/camera/depth/image/compressed" to="/$(env ROS_NAMESPACE)/camera/depth/image/compressed" />
+    <remap from="/camera/depth/camera_info" to="/$(env ROS_NAMESPACE)/camera/depth/camera_info" />
+  </node>
+
+</launch>

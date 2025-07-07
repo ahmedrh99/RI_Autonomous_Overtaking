@@ -1,0 +1,7 @@
+"""
+tracking/
+---------
+Provides 3D object tracking using Kalman filtering and DBSCAN clustering.
+"""
+
+from .tracker import Tracker3D
