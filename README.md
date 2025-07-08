@@ -40,6 +40,7 @@ RI_Autonomous_overtaking/
 - **RL Agent:** PPO with environment reward shaping
 - **Sensors:** LiDAR (sectorized), RGB-D, IMU, Collision
 - **Risk Model:** Predicts binary SAFE/UNSAFE class  or Collision/No Collision based on classification task
+- **Requirement:** RoadScene2Vec https://github.com/AICPS/roadscene2vec 
 - **Execution:**  
   ```bash
   cd CARLA
@@ -66,4 +67,23 @@ RI_Autonomous_overtaking/
   ```bash
   cd CARLA/Risk/collision_prediction
   python coll_prediction.py
+  ```
+
+
+##  Tracker Module
+
+### Requirements
+- ROS 2 Humble
+- Autoware Universe (must include:
+  `autoware_lidar_centerpoint`, `autoware_multi_object_tracker`)
+- Carla ROS Bridge
+- CUDA-enabled GPU for CenterPoint inference
+- Python 3.8+, PyTorch, Torch Geometric
+
+- **Input:** Lidar points, IMU, velocity encoder and RGB camera
+- **Detection:** Centerpoint for LiDAR and YOLO for Camera
+### Execution 
+  ```bash
+  cd CARLA/tracking/ROS2/carla_ros_bridge/launch/
+  ros2 launch carla_ros_bridge Multi_object_tracker.launch.py
   ```
